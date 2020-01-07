@@ -1,0 +1,9 @@
+language: python
+python:
+  - 3.6
+before_install:
+  - python --version
+install:
+  - pip install unittest2
+before_script: cd ossdev/tests
+script: python vct_test.py
