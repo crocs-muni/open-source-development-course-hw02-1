@@ -14,6 +14,13 @@ print(a)
 Operations:
 - Addition with a scalar `a+1`
 - Vector addition: `a + b`
+- Set vector item `v.__setitem__(1, 2)`
+- Compare vectors `v1.__cmp__(v2)`
+- Reverse vector `v.__reversed__()`
+- Subtract vectors `v1.__sub__(v2)`
+- Multiply vector by scalar `v.__mul__(5)`
+- Bit-wise xor vector with scalar `v.__xor__(4)`
+- Vector length `v.length()`
 
 ## Installation
 
