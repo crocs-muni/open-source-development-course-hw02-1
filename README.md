@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/JayDee81/open-source-development-course-hw02-1.svg?branch=master)](https://travis-ci.com/JayDee81/open-source-development-course-hw02-1)
 # Simple Vector implementation in python 
 
 Very simple vector implementation supporting basic operations.
