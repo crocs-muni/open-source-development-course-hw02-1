@@ -1,10 +1,11 @@
 # Useful doc on Python magic methods:
 # https://rszalski.github.io/magicmethods/
+import math
 
 
 class Vector:
     def __init__(self, arr=None, size=None):
-        self.d = arr if arr is not None else (([0] * size) if size else [])
+        self.d = arr if arr is not None and len(arr) != 0 else (([0] * size) if size else [])
 
     @classmethod
     def from_arr(cls, arr):
@@ -34,19 +35,19 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        # TODO: implement
+        self.d[key] = value
         return None
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        this_vector = self.length()
+        other_vector = other.length()
+        return 0 if this_vector == other_vector else (1 if this_vector > other_vector else -1)
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(self.d[::-1])
 
     def __add__(self, other):
         if isinstance(other, int):
@@ -54,18 +55,23 @@ class Vector:
         elif isinstance(other, Vector):
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
+    # If number of dimensions are different, return the vector to be subtracted from.
     def __sub__(self, other):
-        # TODO: implement vector subtraction
-        return None
+        if type(other) is int:
+            return Vector([x - other for x in self.d])
+
+        if len(self.d) != len(other.d):
+            print("Vectors of different size cannot be subtracted.")
+            return self
+
+        return Vector([a + b for a, b in zip(self.d, (-other).d)])
 
     def __mul__(self, other):
-        # TODO: implement vector multiplication by a scalar value
-        return None
+        return Vector([x * other for x in self.d])
 
     def __xor__(self, other):
-        # TODO: implement bit-wise XOR with a scalar value
-        return None
+        if type(other) is int:
+            return Vector([x ^ other for x in self.d])
 
     def length(self):
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+        return math.sqrt(sum(x*x for x in self.d))
