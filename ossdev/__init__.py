@@ -1,5 +1,8 @@
 # Useful doc on Python magic methods:
 # https://rszalski.github.io/magicmethods/
+import math
+
+import math
 import itertools
 
 
@@ -46,41 +49,47 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        if isinstance(key, Vector): raise ValueError('Redundant check to make conflict')
-        self.d[key] = value
+        if type(key) is int and type(value) is int:
+            self.d[key] = value
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        this_vector = self.length()
+        other_vector = other.length()
+        return 0 if this_vector == other_vector else (1 if this_vector > other_vector else -1)
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(self.d[::-1])
 
     def __add__(self, other):
         if isinstance(other, int):
             return Vector([x + other for x in self.d])
         elif isinstance(other, Vector):
-            if len(self) != len(other): raise ValueError('Incompatible size')
+            if len(self) != len(other):
+                raise ValueError('Incompatible size')
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
+    # If number of dimensions are different, return the vector to be subtracted from.
     def __sub__(self, other):
-        # TODO: implement vector subtraction, comment change to make conflict
-        # you may use __add__() and negation, like return (-self + other)
-        return None
+        if type(other) is int:
+            return Vector([x - other for x in self.d])
+
+        if len(self.d) != len(other.d):
+            raise ValueError("Vectors cannot be subtracted.")
+
+        return Vector([a + b for a, b in zip(self.d, (-other).d)])
 
     def __mul__(self, other):
-        if isinstance(other, int):
-            return None  # TODO: FIX
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector([x * other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size checks
-            if self.is_row == other.is_row:
-                return Vector([self.d[i] * other[i] for i in range(len(self))])  # Hadamard product
-            elif self.is_row:
-                return self.dot(other)  # row x col is a dot-product (check matrix mult.)
+            if len(self) == len(other):
+                if self.is_row == other.is_row:
+                    return Vector([self.d[i] * other[i] for i in range(len(self))])  # Hadamard product
+                elif self.is_row:
+                    return self.dot(other)  # row x col is a dot-product (check matrix mult.)
             else:
                 m = Matrix.square(len(self))  # a matrix
                 for i, j in m.index_iter():
@@ -90,29 +99,25 @@ class Vector:
             raise ValueError('Invalid operand')
 
     def __xor__(self, other):
-        # TODO: support both vector element-wise XOR and by-scalar xor (like in __add__)
-        # TODO: add size check
-        return Vector([self.d[i] ^ other[i] for i in range(len(self))])
+        if type(other) is int:
+            return Vector([x ^ other for x in self.d])
+        if type(other) is Vector and len(other) == len(self):
+            return Vector([self.d[i] ^ other[i] for i in range(len(self))])
 
     def __and__(self, other):
         if isinstance(other, int):
             return Vector([x & other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size check
-            return Vector([self.d[i] & other[i] for i in range(len(self))])
+            if len(other) == len(self):
+                return Vector([self.d[i] & other[i] for i in range(len(self))])
         else:
             raise ValueError('Invalid operand')
 
     def length(self):
-        if len(self) == 0:
-            raise ValueError('Undefined for zero-length vector')  # make return 0 instead of an exception
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+        return 0 if len(self) == 0 else math.sqrt(sum(x*x for x in self.d))
 
     def dot(self, other):
-        # TODO: implement dot-product, i.e., a.b = \sum_i a[i]*b[i],
-        # return sum(self[i]*other[i] for i in range(len(self)))
-        return 0
+        return sum(self[i]*other[i] for i in range(len(self)))
 
     def transpose(self):
         v = Vector(self.d)
@@ -185,4 +190,3 @@ class Matrix:
         for i, j in self.index_iter():
             m[i][j] = m[i][j] + other[i][j]
         return m
-
