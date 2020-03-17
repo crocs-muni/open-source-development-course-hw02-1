@@ -84,3 +84,4 @@ ENV/
 
 # Idea
 .idea
+.mypy_cache/
