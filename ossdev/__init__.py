@@ -34,19 +34,22 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        # TODO: implement
-        return None
+        self.d[key] = value
+        return self
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        if sum(self.d) > sum(other.d):
+            return 1
+        if sum(self.d) == sum(other.d):
+            return 0
+        else:
+            return -1
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(list(reversed(self.d)))
 
     def __add__(self, other):
         if isinstance(other, int):
@@ -55,8 +58,8 @@ class Vector:
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
     def __sub__(self, other):
-        # TODO: implement vector subtraction
-        return None
+        # Simple Comment
+        return self + (-other)
 
     def __mul__(self, other):
         # TODO: implement vector multiplication by a scalar value
