@@ -15,6 +15,12 @@ print(a)
 Operations:
 - Addition with a scalar `a+1`
 - Vector addition: `a + b`
+- Vector substraction: `a - b`
+- Vector multiplication: `a * b`
+- Vector xor: `a ^ b`
+- Vector substraction: `a - b`
+- Vector length: `a.length()`
+- Vector comparing, eg: `a < b`
 
 ## Installation
 
