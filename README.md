@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/TomasJani/open-source-development-course-hw02-1.svg?branch=pr%2Fstep1)](https://travis-ci.com/TomasJani/open-source-development-course-hw02-1)
+
 # Simple Vector implementation in python 
 
 Very simple vector implementation supporting basic operations.
@@ -17,6 +19,9 @@ print(m + m)
 Operations:
 - Addition with a scalar `a+1`
 - Vector addition: `a + b`
+- Vector subtraction: `a - b`
+- Vector reversed: `reversed(a)`
+- Vector compere: `a < b (>, >=, <=, ==, ...)`
 - Multiplication:
   - scalar * vector
   - row-vector * col-vector
