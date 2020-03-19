@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/cucak559/open-source-development-course-hw02-1.svg?branch=pr%2Fstep1)](https://travis-ci.com/cucak559/open-source-development-course-hw02-1)
+
 # Simple Vector implementation in python 
 
 Very simple vector implementation supporting basic operations.
