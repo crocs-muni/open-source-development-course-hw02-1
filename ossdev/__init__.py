@@ -1,6 +1,7 @@
 # Useful doc on Python magic methods:
 # https://rszalski.github.io/magicmethods/
 import itertools
+import math
 
 
 class Vector:
@@ -46,37 +47,40 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        if isinstance(key, Vector): raise ValueError('Redundant check to make conflict')
         self.d[key] = value
 
+    def __lt__(self, other):
+        return self.d < other.d
+
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        # https://stackoverflow.com/a/26515234/6199517
+        return (other < self) - (self < other)
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(list(reversed(self.d)))
 
     def __add__(self, other):
         if isinstance(other, int):
             return Vector([x + other for x in self.d])
         elif isinstance(other, Vector):
-            if len(self) != len(other): raise ValueError('Incompatible size')
+            if len(self) != len(other):
+                raise ValueError('Incompatible size')
             return Vector([self.d[i] + other[i] for i in range(len(self))])
+        else:
+            raise ValueError('Invalid operand')
 
     def __sub__(self, other):
-        # TODO: implement vector subtraction, comment change to make conflict
-        # you may use __add__() and negation, like return (-self + other)
-        return None
+        return self + (-other)
 
     def __mul__(self, other):
         if isinstance(other, int):
-            return None  # TODO: FIX
+            return Vector([x * other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size checks
+            if len(self) != len(other):
+                raise ValueError('Incompatible size')
             if self.is_row == other.is_row:
                 return Vector([self.d[i] * other[i] for i in range(len(self))])  # Hadamard product
             elif self.is_row:
@@ -90,29 +94,34 @@ class Vector:
             raise ValueError('Invalid operand')
 
     def __xor__(self, other):
-        # TODO: support both vector element-wise XOR and by-scalar xor (like in __add__)
-        # TODO: add size check
-        return Vector([self.d[i] ^ other[i] for i in range(len(self))])
-
-    def __and__(self, other):
         if isinstance(other, int):
-            return Vector([x & other for x in self.d])
+            return Vector([x ^ other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size check
-            return Vector([self.d[i] & other[i] for i in range(len(self))])
+            if len(self) != len(other):
+                raise ValueError('Incompatible size')
+            return Vector([self.d[i] ^ other[i] for i in range(len(self))])
         else:
             raise ValueError('Invalid operand')
 
     def length(self):
         if len(self) == 0:
-            raise ValueError('Undefined for zero-length vector')  # make return 0 instead of an exception
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+            return 0
+        return math.sqrt(sum(x * x for x in self.d))
+
+    def __and__(self, other):
+        if isinstance(other, int):
+            return Vector([x & other for x in self.d])
+        elif isinstance(other, Vector):
+            if len(self) != len(other):
+                raise ValueError('Incompatible size')
+            return Vector([self.d[i] & other[i] for i in range(len(self))])
+        else:
+            raise ValueError('Invalid operand')
 
     def dot(self, other):
-        # TODO: implement dot-product, i.e., a.b = \sum_i a[i]*b[i],
-        # return sum(self[i]*other[i] for i in range(len(self)))
-        return 0
+        if len(self) != len(other):
+            raise ValueError('Incompatible size')
+        return sum(self[i] * other[i] for i in range(len(self)))
 
     def transpose(self):
         v = Vector(self.d)
@@ -185,4 +194,3 @@ class Matrix:
         for i, j in self.index_iter():
             m[i][j] = m[i][j] + other[i][j]
         return m
-
