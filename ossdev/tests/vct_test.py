@@ -14,6 +14,7 @@ class VectorTest(unittest.TestCase):
         super(VectorTest, self).__init__(*args, **kwargs)
 
     def test_from_arr(self):
+        print("jeee")
         self.assertEqual(Vector.from_arr([0, 1, 2]).get(), [0, 1, 2])
 
     def test_from_size(self):
@@ -95,22 +96,5 @@ class VectorTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()  # pragma: no cover
-    test = VectorTest()
-
-    test.test_from_arr()
-    test.test_from_size()
-    test.test_set()
-    test.test_get()
-    test.test_len()
-    test.test_repr()
-    test.test_getitem()
-    test.test_hash()
-    test.test_setitem()
-    test.test_neg()
-    test.test_reversed()
-    test.test_add()
-    test.test_sub()
-    test.test_mul()
-    test.test_xor()
-    test.test_length()
+    print("juuu")
+    unittest.main()  # pragma: no cover 
