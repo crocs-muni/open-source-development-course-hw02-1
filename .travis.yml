@@ -6,4 +6,4 @@ before_install:
 install:
   - pip install unittest2
 before_script: cd ossdev/tests
-script: python vct_test.py
+script: python test_all.py
