@@ -10,7 +10,6 @@ addons:
 
 python:
   - "3.6"
-  - "3.7"
   - "pypy3"
 
 install:
