@@ -1,6 +1,7 @@
 # Useful doc on Python magic methods:
 # https://rszalski.github.io/magicmethods/
 
+import math
 
 class Vector:
     def __init__(self, arr=None, size=None):
@@ -34,19 +35,22 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        # TODO: implement
-        return None
+        self.d[key] = value
 
-    def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+    def __lt__(self, other):
+        return self.d < other.d
+
+    def __gt__(self, other):
+        return self.d > other.d
+
+    def __eq__(self, other):
+        return self.d == other.d
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(list(reversed(self.d)))
 
     def __add__(self, other):
         if isinstance(other, int):
@@ -55,17 +59,17 @@ class Vector:
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
     def __sub__(self, other):
-        # TODO: implement vector subtraction
-        return None
+        # This function subtracts `other` from `self`.
+        if isinstance(other, int):
+            return Vector([x - other for x in self.d])
+        elif isinstance(other, Vector):
+            return Vector([self.d[i] - other[i] for i in range(len(self))])
 
     def __mul__(self, other):
-        # TODO: implement vector multiplication by a scalar value
-        return None
+        return Vector([x * other for x in self.d])
 
     def __xor__(self, other):
-        # TODO: implement bit-wise XOR with a scalar value
-        return None
+        return Vector([x ^ other for x in self.d])
 
     def length(self):
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+        return math.sqrt(sum(x*x for x in self.d))
