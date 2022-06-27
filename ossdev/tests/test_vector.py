@@ -19,6 +19,19 @@ class VectorTest(unittest.TestCase):
 
         self.assertEqual(c.get(), [3, 3, 3, 3])
 
+    def test_len(self):
+        a = Vector([0, 1])
+        self.assertEqual(len(a), 2)
+        self.assertEqual(a.length(), 1.0)
+
+    def test_reversed(self):
+        a = Vector([0, 1, 2])
+        self.assertEqual(reversed(a).get(), [2,1,0])
+    
+    def test_set(self):
+        a = Vector([0, 1, 2])
+        a[1] = 42
+        self.assertEqual(a.get(), [0,42,2])
 
 if __name__ == "__main__":
     unittest.main()  # pragma: no cover

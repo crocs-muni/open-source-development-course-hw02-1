@@ -8,6 +8,11 @@ def main():
     print('Vector b: %s' % b)
     print('Vector a+2: %s' % (a+2))
     print('Vector a+b: %s' % (a+b))
+    print('len a: %s' % len(a))
+    print('length a: %s' % a.length())
+    print('reverse a: %s' % reversed(a))
+    a[1] = 42
+    print('a[1]=42: %s' % a)
 
 
 if __name__ == '__main__':

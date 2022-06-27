@@ -1,10 +1,10 @@
 # Useful doc on Python magic methods:
 # https://rszalski.github.io/magicmethods/
-
+from math import sqrt
 
 class Vector:
     def __init__(self, arr=None, size=None):
-        self.d = arr if arr is not None else (([0] * size) if size else [])
+        self.d: list = arr if arr is not None else (([0] * size) if size else [])
 
     @classmethod
     def from_arr(cls, arr):
@@ -34,19 +34,18 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        # TODO: implement
+        self.d[key] = value
         return None
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
+        self.d.__cmp__(other.d)
         return -1
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(list(reversed(self.d)))
 
     def __add__(self, other):
         if isinstance(other, int):
@@ -55,17 +54,21 @@ class Vector:
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
     def __sub__(self, other):
-        # TODO: implement vector subtraction
+        """Subtract vectors of same size. """
+        if len(other) != len(self):
+            raise ValueError('Vectors must have same length for subtraction!')
+        self.d = [x - y for (x,y) in zip(self.d, other.d)]
         return None
 
     def __mul__(self, other):
-        # TODO: implement vector multiplication by a scalar value
+        if isinstance(other, int):
+            raise ValueError('Only multiplication by scalar is supported!')
+        self.d = [x * other for x in self.d]
         return None
 
     def __xor__(self, other):
-        # TODO: implement bit-wise XOR with a scalar value
+        self.d = [x ^ other for x in self.d]
         return None
 
     def length(self):
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+        return sqrt(sum(x*x for x in self.d))
